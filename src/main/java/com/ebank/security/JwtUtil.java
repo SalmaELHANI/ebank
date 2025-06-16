@@ -35,8 +35,11 @@ public class JwtUtil {
 
     public boolean isTokenValid(String token, String login) {
         String extracted = extractLogin(token);
-        return extracted.equals(login) && !isTokenExpired(token);
+        boolean valid = extracted.equals(login) && !isTokenExpired(token);
+        System.out.println("🧪 Token valide ? " + valid + " | extrait=" + extracted + " | attendu=" + login);
+        return valid;
     }
+
 
     private boolean isTokenExpired(String token) {
         Date expirationDate = Jwts.parser()
@@ -55,4 +58,5 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
+
 }

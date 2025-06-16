@@ -21,6 +21,9 @@ public class Compte {
     @Enumerated(EnumType.STRING)
     private TypeCompte type; // COURANT ou EPARGNE
 
+    @Enumerated(EnumType.STRING)
+    private StatutCompte statut;
+
     @ManyToOne
     private Client client;
 

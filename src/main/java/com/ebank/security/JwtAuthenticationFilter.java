@@ -26,6 +26,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
+        System.out.println("🔐 PATH: " + request.getServletPath());
+        System.out.println("🔐 AUTH HEADER: " + request.getHeader("Authorization"));
+
+        // ⛔ Ignorer les requêtes d'authentification
+        if (request.getServletPath().startsWith("/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String login = null;
@@ -34,16 +43,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             token = authHeader.substring(7);
             login = jwtUtil.extractLogin(token);
         }
+        System.out.println("⚙️ Vérification login : " + login + " / auth null ? " + (SecurityContextHolder.getContext().getAuthentication() == null));
 
         if (login != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(login);
+            System.out.println("📛 UserDetails authorities : " + userDetails.getAuthorities());
+
             if (jwtUtil.isTokenValid(token, login)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
+            }System.out.println("🎯 Authentication enregistrée : " + SecurityContextHolder.getContext().getAuthentication());
+
         }
+
         filterChain.doFilter(request, response);
+
     }
+
 }

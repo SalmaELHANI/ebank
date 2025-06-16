@@ -9,5 +9,6 @@ public class CompteDTO {
     private double solde;
     private String type;
     private Long clientId;
+    private String statut;
 }
 

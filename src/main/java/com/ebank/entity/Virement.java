@@ -23,5 +23,7 @@ public class Virement {
 
     @ManyToOne
     private Compte compteDestination;
+    private String motif;
+
 }
 
