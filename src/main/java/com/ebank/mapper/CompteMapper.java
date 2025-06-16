@@ -11,6 +11,7 @@ public class CompteMapper {
         dto.setSolde(compte.getSolde());
         dto.setType(compte.getType().name());
         dto.setClientId(compte.getClient().getId());
+        dto.setStatut(compte.getStatut().name());
         return dto;
     }
 }

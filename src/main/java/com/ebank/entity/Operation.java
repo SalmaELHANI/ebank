@@ -23,4 +23,6 @@ public class Operation {
 
     @ManyToOne
     private Compte compte;
+    private String motif;
+
 }

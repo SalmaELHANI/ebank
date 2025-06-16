@@ -14,12 +14,16 @@ public class ClientMapper {
         dto.setEmail(client.getUser().getEmail());
         dto.setAdresse(client.getAdresse());
         dto.setTelephone(client.getTelephone());
+        dto.setDateAnniversaire(client.getDateAnniversaire());
+
         return dto;
     }
     public static Client fromClientRequestDTO(ClientRequestDTO dto, User user) {
         Client client = new Client();
         client.setAdresse(dto.getAdresse());
         client.setTelephone(dto.getTelephone());
+        client.setDateAnniversaire(dto.getDateAnniversaire());
+
         client.setUser(user);
         return client;
     }

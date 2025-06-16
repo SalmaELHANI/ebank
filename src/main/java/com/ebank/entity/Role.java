@@ -2,6 +2,7 @@ package com.ebank.entity;
 
 public enum Role {
     ADMIN,
-    CLIENT
+    CLIENT,
+    AGENT_GUICHET
 }
 
