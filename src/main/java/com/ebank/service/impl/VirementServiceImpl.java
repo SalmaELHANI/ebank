@@ -50,7 +50,7 @@ public class VirementServiceImpl implements VirementService {
                 .montant(dto.getMontant())
                 .date(LocalDateTime.now())
                 .type(TypeOperation.RETRAIT)
-                .motif("Virement vers " + dto.getNumeroDestination() + " : " + dto.getMotif())
+                .motif("Virement vers " + dto.getNumeroDestination() + " : " + dto.getMotif()) // ✅ contient "vers"
                 .build();
 
         Operation credit = Operation.builder()
@@ -58,7 +58,7 @@ public class VirementServiceImpl implements VirementService {
                 .montant(dto.getMontant())
                 .date(LocalDateTime.now())
                 .type(TypeOperation.VERSEMENT)
-                .motif("Virement reçu de " + dto.getNumeroSource() + " : " + dto.getMotif())
+                .motif("Virement reçu de " + dto.getNumeroSource() + " : " + dto.getMotif()) // ✅ contient "reçu"
                 .build();
 
         operationRepository.save(debit);

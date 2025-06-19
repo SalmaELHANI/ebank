@@ -5,6 +5,7 @@ import com.ebank.dto.OperationDTO;
 import com.ebank.entity.Client;
 import com.ebank.entity.Compte;
 import com.ebank.entity.Operation;
+import com.ebank.entity.TypeOperation;
 import com.ebank.mapper.OperationMapper;
 import com.ebank.repository.ClientRepository;
 import com.ebank.repository.CompteRepository;
@@ -38,14 +39,25 @@ public class DashboardServiceImpl implements DashboardService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Compte introuvable pour ce client"));
 
-        List<Operation> operations = operationRepository.findByCompteOrderByDateDesc(compte, PageRequest.of(0, 10));
+        List<Operation> operations = operationRepository.findByCompteOrderByDateDesc(compte, PageRequest.of(0, 50));
+
+        List<Operation> filteredOps = operations.stream()
+                .filter(op -> {
+                    String motif = op.getMotif();
+                    if (op.getType() == TypeOperation.RETRAIT) {
+                        return motif != null && motif.contains("vers");
+                    } else if (op.getType() == TypeOperation.VERSEMENT) {
+                        return motif != null && motif.contains("reçu");
+                    }
+                    return false;
+                })
+                .limit(10)
+                .collect(Collectors.toList());
 
         DashboardDTO dto = new DashboardDTO();
         dto.setNumeroCompte(compte.getNumero());
         dto.setSolde(compte.getSolde());
-        dto.setOperations(
-                operations.stream().map(OperationMapper::toOperationDTO).collect(Collectors.toList())
-        );
+        dto.setOperations(filteredOps.stream().map(OperationMapper::toOperationDTO).collect(Collectors.toList()));
         return dto;
     }
 

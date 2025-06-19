@@ -5,5 +5,5 @@ import com.ebank.dto.AuthResponse;
 
 public interface AuthService {
     AuthResponse login(AuthRequest request);
-    void changePassword(String login, String oldPassword, String newPassword);
+    void changePassword(String oldPassword, String newPassword);
 }

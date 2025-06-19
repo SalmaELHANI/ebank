@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("🔐 AUTH HEADER: " + request.getHeader("Authorization"));
 
         // ⛔ Ignorer les requêtes d'authentification
-        if (request.getServletPath().startsWith("/auth")) {
+        if (request.getServletPath().equals("/auth/login")) {
             filterChain.doFilter(request, response);
             return;
         }
