@@ -21,9 +21,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(request));
     }
 
-    @PostMapping("/change-password")
+    @PutMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDTO dto) {
-        authService.changePassword(dto.getLogin(), dto.getOldPassword(), dto.getNewPassword());
+        authService.changePassword(dto.getOldPassword(), dto.getNewPassword());
         return ResponseEntity.ok("Mot de passe modifié avec succès");
     }
 

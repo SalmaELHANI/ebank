@@ -11,6 +11,7 @@ import com.ebank.security.JwtUtil;
 import com.ebank.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,9 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-    @Override
-    public void changePassword(String login, String oldPassword, String newPassword) {
+
+    public void changePassword(String oldPassword, String newPassword) {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new InvalidCredentialsException("Utilisateur introuvable"));
 
